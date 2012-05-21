@@ -1,5 +1,3 @@
-require "neopets/version"
-
-module Neopets
-  # Your code goes here...
-end
+require 'neopets/pet'
+require 'neopets/user'
+require 'neopets/version'
