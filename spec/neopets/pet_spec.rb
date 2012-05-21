@@ -12,8 +12,7 @@ describe Neopets::Pet do
       :image_url => 'http://pets.neopets.com/cp/2gcmf37c/1/2.png')
       
     pet.gender.should == :male
-    pet.cp.should == '2gcmf37c'
-    pet.mood.should == :happy
+    pet.image_url.should == 'http://pets.neopets.com/cp/2gcmf37c/1/2.png'
   end
   
   it 'supports #male?, #female? gender helpers' do
