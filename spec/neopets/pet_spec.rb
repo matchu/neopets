@@ -28,16 +28,23 @@ describe Neopets::Pet do
   it 'parses cp, mood from image url' do
     pet = Neopets::Pet.new('matts_bat')
     
+    happy = double('happy')
+    sad = double('sad')
+    sick = double('sick')
+    {'1' => happy, '2' => sad, '4' => sick}.each do |id, mood|
+      Neopets::Pet::Mood.stub(:find).with(id).and_return(mood)
+    end
+    
     pet.image_url = 'http://pets.neopets.com/cp/2gcmf37c/1/2.png'
     pet.cp.should == '2gcmf37c'
-    pet.mood.should == :happy
+    pet.mood.should == happy
     
     pet.image_url = 'http://pets.neopets.com/cp/h47bjc9g/2/2.png'
     pet.cp.should == 'h47bjc9g'
-    pet.mood.should == :sad
+    pet.mood.should == sad
     
     pet.image_url = 'http://pets.neopets.com/cp/s6twjtxq/4/2.png'
     pet.cp.should == 's6twjtxq'
-    pet.mood.should == :sick
+    pet.mood.should == sick
   end
 end

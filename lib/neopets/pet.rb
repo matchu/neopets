@@ -1,3 +1,5 @@
+require 'neopets/pet/mood'
+
 module Neopets
   class Pet
     attr_accessor :gender, :name
@@ -39,10 +41,9 @@ module Neopets
     protected
     
     IMAGE_URL_PATTERN = %r{http://pets\.neopets\.com/cp/([a-z0-9]+)/([0-9])/[0-9]\.png}
-    MOODS = {'1' => :happy, '2' => :sad, '4' => :sick}
     def parse_image_url
-      @cp, mood_code = @image_url.match(IMAGE_URL_PATTERN).captures
-      @mood = MOODS[mood_code]
+      @cp, mood_id = @image_url.match(IMAGE_URL_PATTERN).captures
+      @mood = Mood.find(mood_id)
     end
   end
 end
