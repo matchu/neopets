@@ -4,6 +4,11 @@ require 'neopets/pet'
 
 module Neopets
   class User
+    class Error < RuntimeError; end
+    class AccountDisabledError < Error; end
+    class ConnectionError < Error; end
+    class NotFoundError < Error; end
+    
     attr_reader :username
     
     def initialize(username)
@@ -18,9 +23,27 @@ module Neopets
     protected
     
     def load_userlookup
-      doc = Nokogiri::HTML(open(userlookup_url))
-      pet_nodes = doc.css('#userneopets td.contentModuleContent td')
+      doc = open_doc(userlookup_url)
+      user_node = doc.at('#userneopets')
+      unless user_node
+        if doc.css('#content td.content b').last.content == 'This account has been disabled.'
+          raise AccountDisabledError, "User #{@username.inspect} has been frozen"
+        else
+          raise NotFoundError, "User #{@username.inspect} not found on Neopets.com"
+        end
+      end
+      
+      pet_nodes = user_node.css('td.contentModuleContent td')
       @pets = pet_nodes.map { |n| pet_from_node(n) }
+    end
+    
+    def open_doc(url)
+      begin
+        source = open(url)
+      rescue Exception => e
+        raise ConnectionError, "request to #{url.inspect} raised #{e.class}: #{e.message}"
+      end
+      Nokogiri::HTML(source)
     end
     
     def pet_from_node(node)
