@@ -24,7 +24,7 @@ module Neopets
     
     def load_userlookup
       doc = open_doc(userlookup_url)
-      user_node = doc.at('#userneopets')
+      user_node = doc.css('#userneopets').last # apparently users can make extra #userneopets nodes <_<
       unless user_node
         if doc.css('#content td.content b').last.content == 'This account has been disabled.'
           raise AccountDisabledError, "User #{@username.inspect} has been frozen"
