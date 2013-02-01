@@ -6,19 +6,19 @@ describe Neopets::Pet::Mood do
     it 'finds happy by ID 1' do
       mood = Neopets::Pet::Mood.find('1')
       mood.id.should == 1
-      mood.name.should == 'Happy'
+      mood.name.should == :happy
     end
     
     it 'finds sad by ID 2' do
       mood = Neopets::Pet::Mood.find('2')
       mood.id.should == 2
-      mood.name.should == 'Sad'
+      mood.name.should == :sad
     end
     
     it 'finds sick by ID 4' do
       mood = Neopets::Pet::Mood.find('4')
       mood.id.should == 4
-      mood.name.should == 'Sick'
+      mood.name.should == :sick
     end
   end
   
@@ -26,7 +26,7 @@ describe Neopets::Pet::Mood do
     it 'contains happy, sad, and sick in that order' do
       moods = Neopets::Pet::Mood.all
       moods.map(&:id).should == [1, 2, 4]
-      moods.map(&:name).should == %w(Happy Sad Sick)
+      moods.map(&:name).should == [:happy, :sad, :sick]
     end
   end
 end

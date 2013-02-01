@@ -14,9 +14,9 @@ module Neopets
       
       def self.all
         @all ||= [
-          Mood.new(:id => 1, :name => 'Happy'),
-          Mood.new(:id => 2, :name => 'Sad'),
-          Mood.new(:id => 4, :name => 'Sick')
+          Mood.new(:id => 1, :name => :happy),
+          Mood.new(:id => 2, :name => :sad),
+          Mood.new(:id => 4, :name => :sick)
         ]
       end
       
